@@ -436,7 +436,7 @@ export default function NewQuiz() {
               className="w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold text-xl border-4 border-white shadow-2xl"
               size="lg"
             >
-              {currentRound.generating ? "⏳ Generating..." : "✨ Generate Questions"}
+              {currentRound.generating ? "⏳ Generating..." : `✨ Generate ${currentRound.questionCount} Questions`}
             </Button>
 
             {currentRound.questions.length > 0 && (
