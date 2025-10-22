@@ -1,0 +1,28 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { NextResponse } from "next/server";
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+
+export async function POST(request: Request) {
+  try {
+    const { prompt, type, difficulty = "medium", count = 20 } = await request.json();
+
+    if (!prompt) {
+      return NextResponse.json(
+        { error: "Prompt is required" },
+        { status: 400 }
+      );
+    }
+
+    // Use Gemini 2.5 Flash (latest stable)
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash"
+    });
+
+    const difficultyInstructions = {
+      easy: "Make the questions EASY difficulty - suitable for beginners, with straightforward answers that most people would know.",
+      medium: "Make the questions MEDIUM difficulty - balanced challenge, requiring general knowledge but not too obscure.",
+      hard: "Make the questions HARD difficulty - expert level, with challenging obscure facts and detailed knowledge required."
+    };
+
+    const fullPrompt = `Generate exactly ${count
