@@ -5,7 +5,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 export async function POST(request: Request) {
   try {
-    const { prompt, type, difficulty = "medium", count = 20 } = await request.json();
+    const { prompt, type, difficulty = "medium", count = 20, imageCount } = await request.json();
 
     if (!prompt) {
       return NextResponse.json(
@@ -94,16 +94,20 @@ IMPORTANT: For searchTerm, be specific and descriptive for best image results.`,
 
     const typeInstructions = creativeQuestionExamples[type as keyof typeof creativeQuestionExamples] || creativeQuestionExamples.general;
 
+    // For picture rounds with imageCount, use that instead of count
+    const questionsToGenerate = (type === 'picture' && imageCount) ? imageCount : count;
+    const pictureRoundNote = (type === 'picture' && imageCount) ? `\n\nIMPORTANT: Generate EXACTLY ${imageCount} questions with images (not ${count}). All ${imageCount} questions MUST have searchTerm for image retrieval.` : '';
+
     const systemPrompt = `You are a creative quiz master creating engaging pub quiz questions.
 
 DIFFICULTY LEVEL: ${difficultyInstructions[difficulty as keyof typeof difficultyInstructions]}
 
 QUESTION TYPE: ${type.toUpperCase()}
-${typeInstructions}
+${typeInstructions}${pictureRoundNote}
 
 USER REQUEST: ${prompt}
 
-Generate EXACTLY ${count} questions. ${difficulty === 'easy' ? 'Keep answers simple and well-known.' : difficulty === 'hard' ? 'Include obscure facts and challenging details.' : 'Balance well-known and lesser-known facts.'}
+Generate EXACTLY ${questionsToGenerate} questions. ${difficulty === 'easy' ? 'Keep answers simple and well-known.' : difficulty === 'hard' ? 'Include obscure facts and challenging details.' : 'Balance well-known and lesser-known facts.'}
 
 CRITICAL FORMATTING INSTRUCTIONS:
 - Return ONLY valid JSON, no additional text

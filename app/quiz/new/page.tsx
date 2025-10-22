@@ -30,6 +30,7 @@ type Round = {
   type: QuestionType;
   difficulty: DifficultyLevel;
   questionCount: number;
+  imageCount?: number; // For picture rounds only (1-20 images)
   questions: GeneratedQuestion[];
   generating: boolean;
 };
@@ -84,7 +85,13 @@ export default function NewQuiz() {
       const geminiResponse = await fetch("/api/gemini/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: round.prompt, type: round.type, difficulty: round.difficulty, count: round.questionCount }),
+        body: JSON.stringify({ 
+          prompt: round.prompt, 
+          type: round.type, 
+          difficulty: round.difficulty, 
+          count: round.questionCount,
+          imageCount: round.imageCount // For picture rounds
+        }),
       });
 
       if (!geminiResponse.ok) {
@@ -416,6 +423,27 @@ export default function NewQuiz() {
               />
               <p className="text-base text-gray-900 font-medium mt-1">Choose between 1-50 questions</p>
             </div>
+
+            {/* Picture Round Image Count - Only show for picture rounds */}
+            {currentRound.type === "picture" && (
+              <div className="bg-gradient-to-r from-purple-100 to-pink-100 border-4 border-purple-400 rounded-lg p-4">
+                <label className="block text-lg font-bold text-gray-900 mb-2">🖼️ Number of Images</label>
+                <select
+                  className="w-full h-12 px-4 py-2 border-2 border-purple-400 rounded-md text-lg text-gray-900 font-bold bg-white"
+                  value={currentRound.imageCount || 10}
+                  onChange={(e) => updateRound(selectedRound, { imageCount: parseInt(e.target.value) })}
+                >
+                  <option value="5">5 Images</option>
+                  <option value="10">10 Images</option>
+                  <option value="12">12 Images</option>
+                  <option value="15">15 Images</option>
+                  <option value="20">20 Images</option>
+                </select>
+                <p className="text-base text-gray-900 font-medium mt-2">
+                  ℹ️ This many questions will have images. Perfect for traditional picture rounds!
+                </p>
+              </div>
+            )}
 
             <div>
               <label className="block text-lg font-bold text-gray-900 mb-2">
