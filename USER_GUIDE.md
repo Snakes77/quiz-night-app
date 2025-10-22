@@ -34,11 +34,12 @@ You can create up to **6 rounds** per quiz. Each round can be customized with:
 #### Round Options:
 - **Theme/Topic**: The subject of your round (e.g., "80s Music", "Movie Quotes", "World Geography")
 - **Number of Questions**: Choose between **20, 30, or 50 questions** per round
+- **Number of Images** (Picture Rounds Only): Choose between **5, 10, 12, 15, or 20 images**
 - **Difficulty**: Select from **Easy, Medium, or Hard**
 - **Question Type**: Choose from 10 different types:
   - 🎵 **Music** - Songs with YouTube clips
   - 🎬 **Film** - Movies with YouTube clips
-  - 📸 **Picture** - Image-based questions (Google Images)
+  - 📸 **Picture** - Image-based questions (Google Images) - **NEW: Dynamic image count!**
   - 🧠 **General Knowledge** - Mixed trivia
   - 🏛️ **History** - Historical events and figures
   - 🌍 **Geography** - Countries, cities, landmarks
@@ -68,6 +69,8 @@ You can create up to **6 rounds** per quiz. Each round can be customized with:
 **Picture Questions**:
 - Show images of landmarks, celebrities, objects, etc.
 - Questions are designed to work with the images
+- **NEW FEATURE**: When you select "Picture Round" type, a special option appears to choose how many images you want (5, 10, 12, 15, or 20)
+- Perfect for traditional pub quiz picture rounds - generate exactly 12 images for a classic picture sheet!
 
 ### Step 4: Edit Questions (Optional)
 - Click **"Edit"** next to any question to modify it
@@ -136,6 +139,11 @@ You can create up to **6 rounds** per quiz. Each round can be customized with:
 - **Images** display automatically
 - Questions about landmarks, celebrities, logos, objects, etc.
 - Images sourced from Google Images
+- **Dynamic Image Count**: Choose exactly how many images you want (5, 10, 12, 15, or 20)
+  - Perfect for traditional pub quiz picture rounds
+  - Generate exactly **12 images** for a classic picture sheet
+  - Or create smaller rounds with just **5 or 10 images**
+  - Great flexibility for different quiz formats!
 
 ### 🧠 General Knowledge + Specialty Rounds
 - Text-based questions
