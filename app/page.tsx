@@ -57,8 +57,10 @@ export default function Home() {
           <div className="w-32 h-32 rounded-full overflow-hidden border-8 border-white shadow-2xl mx-auto mb-4">
             <img src="/dalyan-tombs.jpeg" alt="Dalyan" className="w-full h-full object-cover" />
           </div>
-          <h1 className="text-5xl font-bold text-white drop-shadow-lg mb-2" style={{ textShadow: "3px 3px 6px rgba(0,0,0,0.4)" }}>
-            🇹🇷 Dalyan Quiz Night 🇹🇷
+          <h1 className="text-4xl md:text-5xl font-bold text-white drop-shadow-lg mb-2 leading-tight" style={{ textShadow: "3px 3px 6px rgba(0,0,0,0.4)" }}>
+            <span className="whitespace-nowrap">🇹🇷 Dalyan Quiz</span>
+            <br />
+            <span className="whitespace-nowrap">Night 🇹🇷</span>
           </h1>
           <p className="text-xl text-white font-bold drop-shadow-md">
             Hoş geldiniz! Welcome!
