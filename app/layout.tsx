@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Quiz Night App",
-  description: "Create and run pub-style quizzes with embedded media",
+  title: "Dalyan Quiz Night",
+  description: "🇹🇷 Create and run amazing quiz nights with AI-powered questions, music, films, and more!",
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
