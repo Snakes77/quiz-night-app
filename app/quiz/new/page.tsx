@@ -430,17 +430,17 @@ export default function NewQuiz() {
                 <label className="block text-lg font-bold text-gray-900 mb-2">🖼️ Number of Images</label>
                 <select
                   className="w-full h-12 px-4 py-2 border-2 border-purple-400 rounded-md text-lg text-gray-900 font-bold bg-white"
-                  value={currentRound.imageCount || 10}
+                  value={currentRound.imageCount || 15}
                   onChange={(e) => updateRound(selectedRound, { imageCount: parseInt(e.target.value) })}
                 >
-                  <option value="5">5 Images</option>
-                  <option value="10">10 Images</option>
-                  <option value="12">12 Images</option>
-                  <option value="15">15 Images</option>
-                  <option value="20">20 Images</option>
+                  <option value="5">5 Images (1x5 grid)</option>
+                  <option value="10">10 Images (2x5 grid)</option>
+                  <option value="12">12 Images (4x3 grid)</option>
+                  <option value="15">15 Images (3x5 grid) ⭐ Recommended</option>
+                  <option value="20">20 Images (4x5 grid)</option>
                 </select>
                 <p className="text-base text-gray-900 font-medium mt-2">
-                  ℹ️ This many questions will have images. Perfect for traditional picture rounds!
+                  ℹ️ All images will display together on one screen - perfect for traditional picture rounds!
                 </p>
               </div>
             )}

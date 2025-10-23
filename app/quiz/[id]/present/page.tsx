@@ -16,6 +16,7 @@ export default function PresentQuiz({ params }: { params: Promise<{ id: string }
   const [currentRound, setCurrentRound] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [showAllAnswers, setShowAllAnswers] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [quizId, setQuizId] = useState<string>("");
   const router = useRouter();
@@ -82,27 +83,51 @@ export default function PresentQuiz({ params }: { params: Promise<{ id: string }
 
   const goNext = () => {
     setShowAnswer(false);
+    setShowAllAnswers(false);
 
     if (!quiz) return;
 
     const currentRoundData = quiz.rounds[currentRound];
+    const isPictureRound = currentRoundData.questions.every(q => q.type === "picture");
 
-    if (currentQuestion < currentRoundData.questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else if (currentRound < quiz.rounds.length - 1) {
-      setCurrentRound(currentRound + 1);
-      setCurrentQuestion(0);
+    // For picture rounds, skip to next round
+    if (isPictureRound) {
+      if (currentRound < quiz.rounds.length - 1) {
+        setCurrentRound(currentRound + 1);
+        setCurrentQuestion(0);
+      }
+    } else {
+      // Standard navigation for non-picture rounds
+      if (currentQuestion < currentRoundData.questions.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+      } else if (currentRound < quiz.rounds.length - 1) {
+        setCurrentRound(currentRound + 1);
+        setCurrentQuestion(0);
+      }
     }
   };
 
   const goPrevious = () => {
     setShowAnswer(false);
+    setShowAllAnswers(false);
 
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-    } else if (currentRound > 0) {
-      setCurrentRound(currentRound - 1);
-      setCurrentQuestion(quiz!.rounds[currentRound - 1].questions.length - 1);
+    const currentRoundData = quiz?.rounds[currentRound];
+    const isPictureRound = currentRoundData?.questions.every(q => q.type === "picture");
+
+    // For picture rounds, skip to previous round
+    if (isPictureRound) {
+      if (currentRound > 0) {
+        setCurrentRound(currentRound - 1);
+        setCurrentQuestion(0);
+      }
+    } else {
+      // Standard navigation for non-picture rounds
+      if (currentQuestion > 0) {
+        setCurrentQuestion(currentQuestion - 1);
+      } else if (currentRound > 0) {
+        setCurrentRound(currentRound - 1);
+        setCurrentQuestion(quiz!.rounds[currentRound - 1].questions.length - 1);
+      }
     }
   };
 
@@ -165,6 +190,20 @@ export default function PresentQuiz({ params }: { params: Promise<{ id: string }
   }
 
   const progress = `Round ${currentRound + 1} - Question ${currentQuestion + 1} of ${round.questions.length}`;
+  
+  // Check if this is a picture round with multiple images
+  const isPictureRound = round.questions.every(q => q.type === "picture");
+  const pictureCount = round.questions.length;
+
+  // Determine grid columns based on picture count
+  const getGridColumns = () => {
+    if (pictureCount === 15) return 3; // 3x5 grid
+    if (pictureCount === 12) return 4; // 4x3 grid
+    if (pictureCount === 20) return 4; // 4x5 grid
+    if (pictureCount === 10) return 2; // 2x5 grid
+    if (pictureCount === 5) return 1;  // 1x5 grid
+    return 3; // Default 3 columns
+  };
 
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #fdc830 50%, #0088a9 75%, #00587a 100%)" }}>
@@ -172,7 +211,7 @@ export default function PresentQuiz({ params }: { params: Promise<{ id: string }
       <div className="bg-gradient-to-r from-red-700 via-red-600 to-red-700 border-b-8 border-white p-4 flex justify-between items-center shadow-2xl">
         <div>
           <div className="text-3xl font-bold text-white drop-shadow-lg">🇹🇷 {quiz.name}</div>
-          <div className="text-lg text-white font-bold drop-shadow-md">{progress}</div>
+          <div className="text-lg text-white font-bold drop-shadow-md">{isPictureRound ? `Round ${currentRound + 1} - ${round.theme} (${pictureCount} Pictures)` : progress}</div>
         </div>
         <div className="flex gap-3">
           <Button onClick={toggleFullscreen} variant="outline" size="lg" className="text-lg font-bold bg-white text-red-700 border-2 border-white hover:bg-red-50">
@@ -185,7 +224,86 @@ export default function PresentQuiz({ params }: { params: Promise<{ id: string }
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-8 py-16 max-w-5xl">
+      {isPictureRound ? (
+        /* Picture Sheet View - All images at once */
+        <div className="container mx-auto px-4 py-8 max-w-7xl">
+          <div className="text-center mb-8 bg-white rounded-3xl p-6 shadow-2xl border-4 border-orange-400">
+            <div className="text-4xl font-bold text-orange-600">
+              🖼️ {round.theme}
+            </div>
+            <p className="text-xl text-gray-900 font-bold mt-2">
+              Identify all {pictureCount} pictures
+            </p>
+          </div>
+
+          {/* Picture Grid */}
+          <div 
+            className="grid gap-4 mb-8"
+            style={{ gridTemplateColumns: `repeat(${getGridColumns()}, minmax(0, 1fr))` }}
+          >
+            {round.questions.map((q, idx) => (
+              <div key={idx} className="bg-white rounded-2xl border-4 border-blue-400 shadow-xl overflow-hidden">
+                <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center py-3">
+                  <div className="text-3xl font-bold">{idx + 1}</div>
+                </div>
+                <div className="p-2 flex items-center justify-center bg-gray-50" style={{ minHeight: "200px" }}>
+                  {q.image_url ? (
+                    <img
+                      src={q.image_url}
+                      alt={`Picture ${idx + 1}`}
+                      className="max-w-full max-h-64 object-contain rounded-lg"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23ddd' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-size='20'%3EImage not available%3C/text%3E%3C/svg%3E";
+                      }}
+                    />
+                  ) : (
+                    <div className="text-gray-500 text-center p-4">
+                      <div className="text-4xl mb-2">🖼️</div>
+                      <div className="font-bold">No image</div>
+                    </div>
+                  )}
+                </div>
+                {showAllAnswers && (
+                  <div className="bg-gradient-to-r from-green-600 to-green-700 text-white text-center py-3 border-t-4 border-green-800">
+                    <div className="text-xl font-bold">✅ {q.answer_text}</div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Controls for Picture Round */}
+          <div className="flex justify-center gap-6">
+            <Button
+              onClick={goPrevious}
+              disabled={currentRound === 0}
+              size="lg"
+              className="bg-white text-gray-900 hover:bg-gray-100 font-bold text-xl px-10 py-6 border-4 border-gray-400 shadow-xl"
+            >
+              ⬅️ Previous Round
+            </Button>
+
+            <Button
+              onClick={() => setShowAllAnswers(!showAllAnswers)}
+              size="lg"
+              className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-bold text-2xl px-16 py-6 border-4 border-white shadow-2xl"
+            >
+              {showAllAnswers ? "❌ Hide All Answers" : "✨ Show All Answers"}
+            </Button>
+
+            <Button
+              onClick={goNext}
+              disabled={currentRound === quiz.rounds.length - 1}
+              size="lg"
+              className="bg-white text-gray-900 hover:bg-gray-100 font-bold text-xl px-10 py-6 border-4 border-gray-400 shadow-xl"
+            >
+              Next Round ➡️
+            </Button>
+          </div>
+        </div>
+      ) : (
+        /* Standard Question-by-Question View */
+        <div className="container mx-auto px-8 py-16 max-w-5xl">
         <div className="text-center mb-12 bg-white rounded-3xl p-8 shadow-2xl border-4 border-orange-400">
           <div className="text-5xl font-bold mb-4 text-orange-600">
             🎯 {round.theme}
@@ -288,7 +406,8 @@ export default function PresentQuiz({ params }: { params: Promise<{ id: string }
             />
           </div>
         </div>
-      </div>
+        </div>
+      )}
     </div>
   );
 }
