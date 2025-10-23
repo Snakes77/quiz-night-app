@@ -145,13 +145,17 @@ You can create up to **6 rounds** per quiz. Each round can be customized with:
 - **ALL IMAGES DISPLAY AT ONCE** in a beautiful grid layout!
 - Just like traditional pub quiz picture rounds
 - Questions about landmarks, celebrities, logos, objects, etc.
-- Images sourced from Google Images
+- Images sourced from Google Images with **smart filtering**
 - **Dynamic Image Count & Smart Grid Layouts**:
   - **15 images (3×5 grid)** ⭐ Recommended - Perfect balance for presentation
   - **12 images (4×3 grid)** - Classic pub quiz picture sheet
   - **10 images (2×5 grid)** - Compact picture round
   - **5 images (1×5 grid)** - Quick picture round
   - **20 images (4×5 grid)** - Extended picture round
+- **Smart Image Selection**:
+  - AI generates search terms that **avoid images with visible text/signage** (e.g., for "Harrods", searches for building architecture, not storefront signs)
+  - Prioritizes reliable sources like Wikipedia and Wikimedia for better image quality
+  - Automatically filters out broken or problematic image URLs
 - **One-Click Answer Reveal**: Click "Show All Answers" to reveal all answers at once
 - **Automatic Error Handling**: Images that fail to load show a fallback instead of breaking
 - Navigation: "Previous Round" and "Next Round" buttons (not question-by-question)
