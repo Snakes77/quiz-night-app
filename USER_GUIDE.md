@@ -35,11 +35,14 @@ You can create up to **6 rounds** per quiz. Each round can be customized with:
 - **Theme/Topic**: The subject of your round (e.g., "80s Music", "Movie Quotes", "World Geography")
 - **Number of Questions**: Choose between **20, 30, or 50 questions** per round
 - **Number of Images** (Picture Rounds Only): Choose between **5, 10, 12, 15, or 20 images**
+  - **15 images (3×5 grid)** ⭐ Recommended - Perfect traditional picture round!
+  - **12 images (4×3 grid)** - Classic pub quiz layout
+  - **10 images (2×5 grid)** - Compact picture round
 - **Difficulty**: Select from **Easy, Medium, or Hard**
 - **Question Type**: Choose from 10 different types:
   - 🎵 **Music** - Songs with YouTube clips
   - 🎬 **Film** - Movies with YouTube clips
-  - 📸 **Picture** - Image-based questions (Google Images) - **NEW: Dynamic image count!**
+  - 📸 **Picture** - All images display together in a grid! **NEW: Picture Sheet View!**
   - 🧠 **General Knowledge** - Mixed trivia
   - 🏛️ **History** - Historical events and figures
   - 🌍 **Geography** - Countries, cities, landmarks
@@ -67,10 +70,13 @@ You can create up to **6 rounds** per quiz. Each round can be customized with:
 - **Plot/Character**: "In this 1994 film, Tom Hanks plays a man with a low IQ"
 
 **Picture Questions**:
+- **PICTURE SHEET VIEW**: All images display together on one screen in a beautiful grid!
 - Show images of landmarks, celebrities, objects, etc.
 - Questions are designed to work with the images
 - **NEW FEATURE**: When you select "Picture Round" type, a special option appears to choose how many images you want (5, 10, 12, 15, or 20)
-- Perfect for traditional pub quiz picture rounds - generate exactly 12 images for a classic picture sheet!
+- **15 images (3×5 grid)** - Recommended default, perfect balance
+- **12 images (4×3 grid)** - Classic pub quiz picture round
+- Images that fail to load show a fallback message instead of breaking
 
 ### Step 4: Edit Questions (Optional)
 - Click **"Edit"** next to any question to modify it
@@ -135,15 +141,20 @@ You can create up to **6 rounds** per quiz. Each round can be customized with:
 - Questions vary: scene identification, quotes, plot/character questions
 - Clips are carefully selected moments from films
 
-### 📸 Picture Questions
-- **Images** display automatically
+### 📸 Picture Questions - PICTURE SHEET VIEW!
+- **ALL IMAGES DISPLAY AT ONCE** in a beautiful grid layout!
+- Just like traditional pub quiz picture rounds
 - Questions about landmarks, celebrities, logos, objects, etc.
 - Images sourced from Google Images
-- **Dynamic Image Count**: Choose exactly how many images you want (5, 10, 12, 15, or 20)
-  - Perfect for traditional pub quiz picture rounds
-  - Generate exactly **12 images** for a classic picture sheet
-  - Or create smaller rounds with just **5 or 10 images**
-  - Great flexibility for different quiz formats!
+- **Dynamic Image Count & Smart Grid Layouts**:
+  - **15 images (3×5 grid)** ⭐ Recommended - Perfect balance for presentation
+  - **12 images (4×3 grid)** - Classic pub quiz picture sheet
+  - **10 images (2×5 grid)** - Compact picture round
+  - **5 images (1×5 grid)** - Quick picture round
+  - **20 images (4×5 grid)** - Extended picture round
+- **One-Click Answer Reveal**: Click "Show All Answers" to reveal all answers at once
+- **Automatic Error Handling**: Images that fail to load show a fallback instead of breaking
+- Navigation: "Previous Round" and "Next Round" buttons (not question-by-question)
 
 ### 🧠 General Knowledge + Specialty Rounds
 - Text-based questions
