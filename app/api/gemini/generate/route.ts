@@ -68,20 +68,43 @@ IMPORTANT: For searchTerm, include movie name + key scene/quote for best YouTube
 
 1. Famous landmarks (30%):
    - Question: "Name this famous Italian landmark"
-   - Search term: "Colosseum Rome"
+   - Search term: "Colosseum Rome ancient amphitheater architecture"
    - Answer: "The Colosseum"
 
 2. Celebrity/Historical figures (30%):
    - Question: "Who is this famous scientist?"
-   - Search term: "Albert Einstein portrait"
+   - Search term: "Albert Einstein portrait photograph face"
    - Answer: "Albert Einstein"
 
-3. Logos/Products/Art (40%):
-   - Question: "Which company uses this logo?"
-   - Search term: "Apple logo"
-   - Answer: "Apple"
+3. Buildings/Monuments WITHOUT visible text (20%):
+   - Question: "Which famous London department store is this?"
+   - Search term: "Harrods building exterior architecture facade London"
+   - Answer: "Harrods"
 
-IMPORTANT: For searchTerm, be specific and descriptive for best image results.`,
+4. Art/Paintings (20%):
+   - Question: "Name this famous painting"
+   - Search term: "Mona Lisa painting Leonardo da Vinci artwork"
+   - Answer: "Mona Lisa"
+
+CRITICAL SEARCH TERM RULES TO AVOID TEXT IN IMAGES:
+- For buildings/stores: Use "exterior architecture", "facade", "building view" NOT the business name alone
+- For landmarks: Add "architecture", "monument", "structure" to get wider shots
+- For people: Use "portrait photograph", "face closeup", "headshot"
+- NEVER use search terms that will show text/signage (avoid: "sign", "logo", "storefront sign")
+- Add "without text" or "architecture" to avoid images with visible labels
+- Prefer distant/architectural shots over close-up signage
+
+Examples of GOOD search terms (NO TEXT IN IMAGE):
+  * "Big Ben clock tower architecture London" (not "Big Ben sign")
+  * "Harrods building exterior facade architecture" (not "Harrods storefront sign")
+  * "Sydney Opera House architectural structure" (not "Sydney Opera House entrance")
+  * "Times Square buildings New York cityscape" (avoid text-heavy images)
+  
+Examples of BAD search terms (WILL SHOW TEXT):
+  ✗ "Harrods sign London"
+  ✗ "McDonald's logo"
+  ✗ "Hollywood sign California"
+  ✗ "Store name signage"`,
 
       general: `GENERAL KNOWLEDGE - Vary question types and topics within the theme.`,
       history: `HISTORY - Include dates, events, figures, and mix ancient, medieval, and modern history.`,
@@ -97,13 +120,14 @@ IMPORTANT: For searchTerm, be specific and descriptive for best image results.`,
     // For picture rounds with imageCount, use that instead of count
     const questionsToGenerate = (type === 'picture' && imageCount) ? imageCount : count;
     const pictureRoundNote = (type === 'picture' && imageCount) ? `\n\nIMPORTANT: Generate EXACTLY ${imageCount} questions with images (not ${count}). All ${imageCount} questions MUST have searchTerm for image retrieval.` : '';
+    const pictureRoundTextWarning = (type === 'picture') ? `\n\n⚠️ CRITICAL FOR PICTURE ROUNDS: Search terms MUST avoid images with visible text/labels/signs that reveal the answer! Use "architecture", "exterior", "facade", "building view" instead of "sign" or "storefront".` : '';
 
     const systemPrompt = `You are a creative quiz master creating engaging pub quiz questions.
 
 DIFFICULTY LEVEL: ${difficultyInstructions[difficulty as keyof typeof difficultyInstructions]}
 
 QUESTION TYPE: ${type.toUpperCase()}
-${typeInstructions}${pictureRoundNote}
+${typeInstructions}${pictureRoundNote}${pictureRoundTextWarning}
 
 USER REQUEST: ${prompt}
 

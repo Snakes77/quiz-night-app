@@ -141,12 +141,19 @@ export default function NewQuiz() {
               if (imageResponse.ok) {
                 const { images } = await imageResponse.json();
                 if (images && images.length > 0) {
-                  // Automatically select the first image
+                  // Use the first available image (prioritized by reliability)
+                  // We've already prioritized Wikipedia/Wikimedia in the API
                   question.imageUrl = images[0].url;
+                  
+                  console.log(`✓ Image found for "${question.searchTerm}": ${images[0].source}`);
+                } else {
+                  console.warn(`⚠️ No images found for: ${question.searchTerm}`);
                 }
+              } else {
+                console.error(`❌ Image API failed for: ${question.searchTerm}`);
               }
             } catch (error) {
-              console.error("Image search failed for:", question.searchTerm);
+              console.error("Image search failed for:", question.searchTerm, error);
             }
           }
         }
